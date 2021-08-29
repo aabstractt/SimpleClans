@@ -25,9 +25,16 @@ public class SimpleClans extends PluginBase {
 
     private final Map<String, Object> messages = new HashMap<>();
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public void onEnable() {
         instance = this;
+
+        File file = new File(getDataFolder(), "clans/");
+
+        if (!file.exists()) {
+            file.mkdir();
+        }
 
         saveResource("messages.properties");
         loadMessages();

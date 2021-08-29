@@ -1,31 +1,32 @@
 package com.wxav.simpleclans.clan;
 
 import lombok.Getter;
+import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 public class ClanConfiguration {
 
-    @Getter
     private String name;
-    @Getter
     private String leader;
-    @Getter
-    private List<String> members;
+    private List<String> members = new ArrayList<>();
 
-    public ClanConfiguration setName(String name) {
+    public ClanConfiguration name(String name) {
         this.name = name;
 
         return this;
     }
 
-    public ClanConfiguration setLeader(String leader) {
+    public ClanConfiguration leader(String leader) {
         this.leader = leader;
 
         return this;
     }
 
-    public ClanConfiguration addMember(String member) {
+    public ClanConfiguration member(String member) {
         this.members.add(member);
 
         return this;

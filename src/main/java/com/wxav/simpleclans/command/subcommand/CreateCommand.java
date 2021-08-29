@@ -43,6 +43,6 @@ public class CreateCommand extends SubCommand {
             return;
         }
 
-        ClanFactory.getInstance().createClan(new ClanConfiguration().setName(args[0]).setLeader(session.getName()).addMember(session.getName()));
+        ClanFactory.getInstance().createClan(new ClanConfiguration().name(args[0]).leader(session.getName()).member(session.getName()));
     }
 }

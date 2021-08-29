@@ -1,18 +1,18 @@
 package com.wxav.simpleclans.clan;
 
+import cn.nukkit.utils.MainLogger;
 import com.wxav.simpleclans.SimpleClans;
 import lombok.Getter;
-import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ClanFactory {
-    
+
     @Getter
     private final static ClanFactory instance = new ClanFactory();
 
@@ -26,25 +26,22 @@ public class ClanFactory {
         return (new File(SimpleClans.getInstance().getDataFolder(), "clans/" + name + ".yml")).exists();
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void createClan(ClanConfiguration clanConfiguration) {
-        DumperOptions options = new DumperOptions();
+        File file = new File(SimpleClans.getInstance().getDataFolder(), "clans/" + clanConfiguration.getName() + ".yml");
 
-        options.setIndent(2);
-        options.setPrettyFlow(true);
-        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        File parent = file.getParentFile();
 
-        try {
-            File file = new File(SimpleClans.getInstance().getDataFolder(), "clans/" + clanConfiguration.getName() + ".yml");
+        if (parent != null) {
+            parent.mkdirs();
+        }
 
-            if (!file.exists()) {
-                file.createNewFile();
-            }
+        Yaml yaml = new Yaml();
 
-            Yaml yaml = new Yaml(options);
-
-            yaml.dump(clanConfiguration, new PrintWriter(file));
+        try (FileWriter fileWriter = new FileWriter(file)) {
+            fileWriter.write(yaml.dumpAsMap(clanConfiguration));
         } catch (IOException e) {
-            e.printStackTrace();
+            MainLogger.getLogger().error("Unable to save Config " + file, e);
         }
     }
 }
