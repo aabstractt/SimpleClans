@@ -4,6 +4,7 @@ import cn.nukkit.Player;
 import cn.nukkit.Server;
 import com.wxav.simpleclans.SimpleClans;
 import com.wxav.simpleclans.clan.Clan;
+import com.wxav.simpleclans.clan.ClanFactory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,10 +19,10 @@ public class Session {
 
     private UUID uniqueId;
     @Setter
-    private UUID clanUniqueId;
+    private String clanName;
 
     public Clan getClan() {
-        return null;
+        return ClanFactory.getInstance().getClanName(this.clanName);
     }
 
     public Player getInstance() {

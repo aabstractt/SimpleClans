@@ -3,7 +3,7 @@ package com.wxav.simpleclans.command.subcommand;
 import cn.nukkit.Player;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.utils.TextFormat;
-import com.wxav.simpleclans.clan.ClanConfiguration;
+import com.wxav.simpleclans.clan.Clan;
 import com.wxav.simpleclans.clan.ClanFactory;
 import com.wxav.simpleclans.command.SubCommand;
 import com.wxav.simpleclans.session.Session;
@@ -43,6 +43,9 @@ public class CreateCommand extends SubCommand {
             return;
         }
 
-        ClanFactory.getInstance().createClan(new ClanConfiguration().name(args[0]).leader(session.getName()).member(session.getName()));
+        session.setClanName(args[0]);
+        SessionFactory.getInstance().saveSession(session);
+
+        ClanFactory.getInstance().createClan(new Clan().name(args[0]).leader(session.getName()).member(session.getName()));
     }
 }

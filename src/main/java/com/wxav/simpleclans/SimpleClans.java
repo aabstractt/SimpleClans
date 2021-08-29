@@ -1,6 +1,7 @@
 package com.wxav.simpleclans;
 
 import cn.nukkit.plugin.PluginBase;
+import cn.nukkit.plugin.PluginLogger;
 import cn.nukkit.utils.LogLevel;
 import com.creeperface.nukkit.placeholderapi.api.PlaceholderAPI;
 import com.wxav.simpleclans.command.ClanCommand;
@@ -11,15 +12,15 @@ import lombok.Getter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
+import java.io.InputStream;
+import java.util.*;
 
 public class SimpleClans extends PluginBase {
 
     @Getter
     private static SimpleClans instance;
+    @Getter
+    private static final VersionInfo versionInfo = loadVersion();
 
     public PlaceholderAPI api = null;
 
@@ -34,6 +35,21 @@ public class SimpleClans extends PluginBase {
 
         if (!file.exists()) {
             file.mkdir();
+        }
+
+        PluginLogger logger = getLogger();
+
+        // TODO: Waterdog log
+        logger.info("§bStarting SimpleClans plugin!");
+        logger.info("§9Commit Id: " + versionInfo.commitId());
+        logger.info("§9Branch: " + versionInfo.branchName());
+        logger.info("§9Build Author: " + versionInfo.author());
+        logger.info("§9Development Build: " + versionInfo.development());
+
+        if (!versionInfo.development() || (versionInfo.buildVersion().equals("#build") || versionInfo.branchName().equals("unknown"))) {
+            logger.error("Custom build? Unofficial builds should be not run in production!");
+        } else {
+            logger.info("§bDiscovered branch §9" + versionInfo.branchName() + "§b commitId §9" + versionInfo.commitId());
         }
 
         saveResource("messages.properties");
@@ -73,5 +89,26 @@ public class SimpleClans extends PluginBase {
         }
 
         return message;
+    }
+
+    private static VersionInfo loadVersion() {
+        InputStream inputStream = SimpleClans.class.getClassLoader().getResourceAsStream("github.properties");
+
+        if (inputStream == null) {
+            return VersionInfo.unknown();
+        }
+
+        Properties properties = new Properties();
+
+        try {
+            properties.load(inputStream);
+        } catch (IOException e) {
+            return VersionInfo.unknown();
+        }
+
+        String branchName = properties.getProperty("git.branch", "unknown");
+        String commitId = properties.getProperty("git.commit.id.abbrev", "unknown");
+
+        return new VersionInfo(branchName, commitId, branchName.equals("release"), properties.getProperty("git.commit.user.name"));
     }
 }

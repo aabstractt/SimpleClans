@@ -111,6 +111,7 @@
                     <dateFormatTimeZone>${user.timezone}</dateFormatTimeZone>
                     <verbose>true</verbose>
                     <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                    <generateGitPropertiesFilename>${project.build.outputDirectory}/github.properties</generateGitPropertiesFilename>
                     <skipPoms>true</skipPoms>
                     <injectAllReactorProjects>false</injectAllReactorProjects>
                     <failOnNoGitDirectory>false</failOnNoGitDirectory>

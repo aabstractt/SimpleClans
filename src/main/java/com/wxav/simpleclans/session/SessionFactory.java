@@ -10,7 +10,6 @@ import lombok.Getter;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class SessionFactory {
 
@@ -21,14 +20,16 @@ public class SessionFactory {
 
     private final Config config = new Config(new File(SimpleClans.getInstance().getDataFolder(), "players_clan.yml"));
 
-    public void createSession(Player player) {
-        String clanUniqueId = this.config.getString(player.getName().toLowerCase(), null);
+    public Session createSession(Player player) {
+        Session session = new Session(player.getName(), player.getUniqueId(), this.config.getString(player.getName().toLowerCase(), null));
 
-        this.sessions.put(player.getName().toLowerCase(), new Session(player.getName(), player.getUniqueId(), clanUniqueId != null ? UUID.fromString(clanUniqueId) : null));
+        this.sessions.put(player.getName().toLowerCase(), session);
+
+        return session;
     }
 
     public void closeSession(Player player) {
-
+        this.sessions.remove(player.getName().toLowerCase());
     }
 
     public Session getSession(String name) {
@@ -47,5 +48,14 @@ public class SessionFactory {
 
     public Session getSessionExact(String name) {
         return this.sessions.get(name.toLowerCase());
+    }
+
+    public void saveSession(Session session) {
+        if (session.getClanName() == null) {
+            return;
+        }
+
+        this.config.set(session.getName(), session.getClanName());
+        this.config.save();
     }
 }
