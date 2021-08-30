@@ -10,7 +10,6 @@ public abstract class SubCommand {
 
     protected String name;
     protected String description;
-    protected String usage;
 
     public abstract void execute(CommandSender sender, String label, String[] args);
 }

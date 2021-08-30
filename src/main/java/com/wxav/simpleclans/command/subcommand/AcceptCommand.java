@@ -12,8 +12,8 @@ import com.wxav.simpleclans.session.SessionFactory;
 
 public class AcceptCommand extends SubCommand {
 
-    public AcceptCommand(String name, String description, String usage) {
-        super(name, description, usage);
+    public AcceptCommand(String name, String description) {
+        super(name, description);
     }
 
     @Override

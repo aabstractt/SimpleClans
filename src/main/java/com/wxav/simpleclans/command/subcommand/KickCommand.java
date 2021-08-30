@@ -11,8 +11,8 @@ import com.wxav.simpleclans.session.SessionFactory;
 
 public class KickCommand extends SubCommand {
 
-    public KickCommand(String name, String description, String usage) {
-        super(name, description, usage);
+    public KickCommand(String name, String description) {
+        super(name, description);
     }
 
     @Override

@@ -11,8 +11,8 @@ import com.wxav.simpleclans.session.SessionFactory;
 
 public class PromoteCommand extends SubCommand {
 
-    public PromoteCommand(String name, String description, String usage) {
-        super(name, description, usage);
+    public PromoteCommand(String name, String description) {
+        super(name, description);
     }
 
     @Override

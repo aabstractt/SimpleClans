@@ -15,16 +15,16 @@ public class ClanCommand extends Command {
         super(name, description, null, new String[]{"c"});
 
         addCommand(
-                new AcceptCommand("accept", "Accept a clan invitation", "/clan accept <name>"),
-                new CreateCommand("create", "Create a new clan", "/clan create <name>"),
-                new DemoteCommand("demote", "Demote a player role", "/clan demote <player>"),
-                new DenyCommand("deny", "Deny a clan invitation", "/clan deny <clan>"),
-                new HomeCommand("home", "Teleport to the clan home", "/clan home"),
-                new InviteCommand("invite", "Invite a player to join the clan", "/clan invite <player>"),
-                new KickCommand("kick", "Kick a player from the clan", "/clan kick <player>"),
-                new LeaveCommand("leave", "Leave from the clan", "/clan leave"),
-                new PromoteCommand("promote", "Promote a player role", "/clan promote <player>"),
-                new SetHomeCommand("sethome", "Set a home position", "/clan sethome")
+                new AcceptCommand("accept", "Accept a clan invitation"),
+                new CreateCommand("create", "Create a new clan"),
+                new DemoteCommand("demote", "Demote a player role"),
+                new DenyCommand("deny", "Deny a clan invitation"),
+                new HomeCommand("home", "Teleport to the clan home"),
+                new InviteCommand("invite", "Invite a player to join the clan"),
+                new KickCommand("kick", "Kick a player from the clan"),
+                new LeaveCommand("leave", "Leave from the clan"),
+                new PromoteCommand("promote", "Promote a player role"),
+                new SetHomeCommand("sethome", "Set a home position")
         );
     }
 

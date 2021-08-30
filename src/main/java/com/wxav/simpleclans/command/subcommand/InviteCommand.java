@@ -10,8 +10,8 @@ import com.wxav.simpleclans.session.SessionFactory;
 
 public class InviteCommand extends SubCommand {
 
-    public InviteCommand(String name, String description, String usage) {
-        super(name, description, usage);
+    public InviteCommand(String name, String description) {
+        super(name, description);
     }
 
     @Override

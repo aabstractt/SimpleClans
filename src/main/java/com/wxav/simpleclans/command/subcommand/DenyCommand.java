@@ -11,8 +11,8 @@ import com.wxav.simpleclans.session.SessionFactory;
 
 public class DenyCommand extends SubCommand {
 
-    public DenyCommand(String name, String description, String usage) {
-        super(name, description, usage);
+    public DenyCommand(String name, String description) {
+        super(name, description);
     }
 
     @Override

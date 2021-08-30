@@ -14,8 +14,8 @@ import java.util.HashMap;
 
 public class SetHomeCommand extends SubCommand {
 
-    public SetHomeCommand(String name, String description, String usage) {
-        super(name, description, usage);
+    public SetHomeCommand(String name, String description) {
+        super(name, description);
     }
 
     @Override

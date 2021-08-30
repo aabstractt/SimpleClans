@@ -15,8 +15,8 @@ import java.util.Map;
 
 public class HomeCommand extends SubCommand {
 
-    public HomeCommand(String name, String description, String usage) {
-        super(name, description, usage);
+    public HomeCommand(String name, String description) {
+        super(name, description);
     }
 
     @Override

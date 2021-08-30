@@ -11,8 +11,8 @@ import com.wxav.simpleclans.session.SessionFactory;
 
 public class LeaveCommand extends SubCommand {
 
-    public LeaveCommand(String name, String description, String usage) {
-        super(name, description, usage);
+    public LeaveCommand(String name, String description) {
+        super(name, description);
     }
 
     @Override
