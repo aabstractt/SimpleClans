@@ -1,6 +1,5 @@
 package com.wxav.simpleclans.clan;
 
-import cn.nukkit.utils.Config;
 import com.wxav.simpleclans.session.Session;
 import com.wxav.simpleclans.session.SessionFactory;
 import lombok.Getter;
@@ -63,8 +62,6 @@ public class Clan {
     }
 
     public void disband() {
-        Config config = SessionFactory.getInstance().config;
-
         for (Session session : getMembersOnline()) {
             session.sendTranslatedMessage("CLAN_DISBAND", this.leader);
 
@@ -72,9 +69,7 @@ public class Clan {
             session.setRole(null);
         }
 
-        this.members.forEach(config::remove);
-
-        config.save();
+        this.members.forEach(SessionFactory.getInstance()::removeSession);
 
         ClanFactory.getInstance().removeClan(this);
     }

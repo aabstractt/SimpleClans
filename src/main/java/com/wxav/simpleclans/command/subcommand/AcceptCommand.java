@@ -67,7 +67,7 @@ public class AcceptCommand extends SubCommand {
         session.setRole(Role.MEMBER);
 
         ClanFactory.getInstance().saveClan(clan);
-        SessionFactory.getInstance().saveSession(session, false);
+        SessionFactory.getInstance().saveSession(session);
 
         session.sendTranslatedMessage("CLAN_INVITATION_ACCEPTED", target.getName(), clan.getName());
         target.sendTranslatedMessage("PLAYER_INVITATION_ACCEPTED", session.getName());

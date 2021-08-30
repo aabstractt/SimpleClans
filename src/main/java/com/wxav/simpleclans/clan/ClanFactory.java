@@ -9,7 +9,6 @@ import org.yaml.snakeyaml.constructor.Constructor;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class ClanFactory {
 
@@ -42,10 +41,6 @@ public class ClanFactory {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-    public Optional<Clan> getClanId(String uniqueId) {
-        return this.clanMap.values().stream().filter(clan -> clan.getUniqueId().equals(uniqueId)).findFirst();
     }
 
     public Clan getClanName(String name) {

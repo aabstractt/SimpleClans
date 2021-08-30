@@ -45,7 +45,7 @@ public class LeaveCommand extends SubCommand {
             session.setClanName(null);
             session.setRole(null);
 
-            SessionFactory.getInstance().saveSession(session, true);
+            SessionFactory.getInstance().removeSession(session.getName());
         }
     }
 }

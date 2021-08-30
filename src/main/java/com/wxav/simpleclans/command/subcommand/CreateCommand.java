@@ -49,7 +49,7 @@ public class CreateCommand extends SubCommand {
         session.setClanName(args[0]);
         session.setRole(Role.LEADER);
 
-        SessionFactory.getInstance().saveSession(session, false);
+        SessionFactory.getInstance().saveSession(session);
 
         ClanFactory.getInstance().saveClan(new Clan().uniqueId().name(args[0]).leader(session.getName()).member(session.getName()), true);
     }

@@ -71,7 +71,7 @@ public class DemoteCommand extends SubCommand {
         }
 
         session.setRole(targetRole);
-        SessionFactory.getInstance().saveSession(session, false);
+        SessionFactory.getInstance().saveSession(session);
 
         // TODO: charAt(0) = uppercase and the rest lowercase, example: Member
         String roleName = targetRole.name().charAt(0) + targetRole.name().substring(1).toLowerCase();

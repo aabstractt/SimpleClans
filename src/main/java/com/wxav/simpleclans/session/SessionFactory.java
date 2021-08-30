@@ -18,18 +18,18 @@ public class SessionFactory {
 
     private final Map<String, Session> sessions = new HashMap<>();
 
-    public final Config config = new Config(new File(SimpleClans.getInstance().getDataFolder(), "players_clan.yml"));
-
     public Session createSession(Player player) {
         String name = player.getName().toLowerCase();
 
-        String roleName = this.config.getString(name + ".role", null);
+        Config config = new Config(new File(SimpleClans.getInstance().getDataFolder(), "players_clan.yml"));
+
+        String roleName = config.getString(name + ".role", null);
 
         if (roleName.equals("null")) {
             roleName = null;
         }
 
-        Session session = new Session(player.getName(), player.getUniqueId(), this.config.getString(name + ".clan", null), roleName != null ? Role.valueOf(roleName) : null);
+        Session session = new Session(player.getName(), player.getUniqueId(), config.getString(name + ".clan", null), roleName != null ? Role.valueOf(roleName) : null);
 
         this.sessions.put(player.getName().toLowerCase(), session);
 
@@ -58,16 +58,22 @@ public class SessionFactory {
         return this.sessions.get(name.toLowerCase());
     }
 
-    public void saveSession(Session session, boolean remove) {
-        if (remove) {
-            this.config.remove(session.getName().toLowerCase());
-        } else {
-            this.config.set(session.getName().toLowerCase(), new HashMap<String, String>() {{
-                put("clan", session.getClanName());
-                put("role", session.getRole().name());
-            }});
-        }
+    public void saveSession(Session session) {
+        Config config = new Config(new File(SimpleClans.getInstance().getDataFolder(), "players_clan.yml"));
 
-        this.config.save();
+        config.set(session.getName().toLowerCase(), new HashMap<String, String>() {{
+            put("clan", session.getClanName());
+            put("role", session.getRole().name());
+        }});
+
+        config.save();
+    }
+
+    public void removeSession(String name) {
+        Config config = new Config(new File(SimpleClans.getInstance().getDataFolder(), "players_clan.yml"));
+
+        config.remove(name.toLowerCase());
+
+        config.save();
     }
 }
