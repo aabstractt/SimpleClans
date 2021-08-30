@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -20,6 +21,8 @@ public class Session {
     private UUID uniqueId;
     @Setter
     private String clanName;
+
+    private List<String> invites;
 
     public Clan getClan() {
         return ClanFactory.getInstance().getClanName(this.clanName);
@@ -37,5 +40,17 @@ public class Session {
         }
 
         instance.sendMessage(SimpleClans.translateMessage(message, args));
+    }
+
+    public boolean hasInvite(String uniqueId) {
+        return this.invites.contains(uniqueId);
+    }
+
+    public void addInvite(String uniqueId) {
+        this.invites.add(uniqueId);
+    }
+
+    public void removeInvite(String uniqueId) {
+        this.invites.remove(uniqueId);
     }
 }

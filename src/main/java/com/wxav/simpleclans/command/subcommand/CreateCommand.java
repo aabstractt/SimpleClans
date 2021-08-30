@@ -46,6 +46,6 @@ public class CreateCommand extends SubCommand {
         session.setClanName(args[0]);
         SessionFactory.getInstance().saveSession(session);
 
-        ClanFactory.getInstance().createClan(new Clan().name(args[0]).leader(session.getName()).member(session.getName()));
+        ClanFactory.getInstance().createClan(new Clan().uniqueId().name(args[0]).leader(session.getName()).member(session.getName()));
     }
 }

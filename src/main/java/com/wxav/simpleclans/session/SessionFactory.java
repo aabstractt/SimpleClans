@@ -3,11 +3,11 @@ package com.wxav.simpleclans.session;
 import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.utils.Config;
-import cn.nukkit.utils.PluginException;
 import com.wxav.simpleclans.SimpleClans;
 import lombok.Getter;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +21,7 @@ public class SessionFactory {
     private final Config config = new Config(new File(SimpleClans.getInstance().getDataFolder(), "players_clan.yml"));
 
     public Session createSession(Player player) {
-        Session session = new Session(player.getName(), player.getUniqueId(), this.config.getString(player.getName().toLowerCase(), null));
+        Session session = new Session(player.getName(), player.getUniqueId(), this.config.getString(player.getName().toLowerCase(), null), Collections.emptyList());
 
         this.sessions.put(player.getName().toLowerCase(), session);
 
@@ -36,7 +36,7 @@ public class SessionFactory {
         Player player = Server.getInstance().getPlayer(name);
 
         if (player == null) {
-            throw new PluginException("Player not found");
+            return null;
         }
 
         return this.getPlayerSession(player);
