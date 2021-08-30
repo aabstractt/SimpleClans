@@ -24,7 +24,7 @@ public class PromoteCommand extends SubCommand {
         }
 
         if (args.length == 0) {
-            sender.sendMessage(TextFormat.RED + "Use /" + label + " demote <player>");
+            sender.sendMessage(TextFormat.RED + "Use /" + label + " promote <player>");
 
             return;
         }

@@ -21,6 +21,7 @@ public class ClanCommand extends Command {
                 new DenyCommand("deny", "Deny a clan invitation", "/clan deny <clan>"),
                 new InviteCommand("invite", "Invite a player to join the clan", "/clan invite <player>"),
                 new KickCommand("kick", "Kick a player from the clan", "/clan kick <player>"),
+                new LeaveCommand("leave", "Leave from the clan", "/clan leave"),
                 new PromoteCommand("promote", "Promote a player role", "/clan promote <player>")
         );
     }

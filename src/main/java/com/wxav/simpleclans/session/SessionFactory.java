@@ -18,7 +18,7 @@ public class SessionFactory {
 
     private final Map<String, Session> sessions = new HashMap<>();
 
-    private final Config config = new Config(new File(SimpleClans.getInstance().getDataFolder(), "players_clan.yml"));
+    public final Config config = new Config(new File(SimpleClans.getInstance().getDataFolder(), "players_clan.yml"));
 
     public Session createSession(Player player) {
         String name = player.getName().toLowerCase();
