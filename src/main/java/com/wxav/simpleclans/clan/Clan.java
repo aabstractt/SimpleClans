@@ -37,9 +37,13 @@ public class Clan {
     }
 
     public Clan member(String member) {
-        this.members.add(member);
+        this.members.add(member.toLowerCase());
 
         return this;
+    }
+
+    public void removeMember(String name) {
+        this.members.remove(name.toLowerCase());
     }
 
     public List<Session> getMembersOnline() {

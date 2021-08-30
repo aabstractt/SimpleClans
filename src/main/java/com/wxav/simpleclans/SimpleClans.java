@@ -19,7 +19,7 @@ public class SimpleClans extends PluginBase {
 
     @Getter
     private static SimpleClans instance;
-    @Getter
+
     private static final VersionInfo versionInfo = loadVersion();
 
     public PlaceholderAPI api = null;
@@ -89,6 +89,10 @@ public class SimpleClans extends PluginBase {
         }
 
         return message;
+    }
+
+    public static VersionInfo version() {
+        return versionInfo;
     }
 
     private static VersionInfo loadVersion() {

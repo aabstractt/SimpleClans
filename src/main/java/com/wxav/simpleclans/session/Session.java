@@ -5,6 +5,7 @@ import cn.nukkit.Server;
 import com.wxav.simpleclans.SimpleClans;
 import com.wxav.simpleclans.clan.Clan;
 import com.wxav.simpleclans.clan.ClanFactory;
+import com.wxav.simpleclans.clan.ClanRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +22,8 @@ public class Session {
     private UUID uniqueId;
     @Setter
     private String clanName;
+    @Setter
+    private ClanRole role;
 
     private List<String> invites;
 
@@ -51,6 +54,10 @@ public class Session {
     }
 
     public void removeInvite(String uniqueId) {
-        this.invites.remove(uniqueId);
+        if (uniqueId == null) {
+            this.invites.clear();
+        } else {
+            this.invites.remove(uniqueId);
+        }
     }
 }

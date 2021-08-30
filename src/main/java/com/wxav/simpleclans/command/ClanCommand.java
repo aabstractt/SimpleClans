@@ -3,9 +3,7 @@ package com.wxav.simpleclans.command;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.utils.TextFormat;
-import com.wxav.simpleclans.command.subcommand.AcceptCommand;
-import com.wxav.simpleclans.command.subcommand.CreateCommand;
-import com.wxav.simpleclans.command.subcommand.InviteCommand;
+import com.wxav.simpleclans.command.subcommand.*;
 
 import java.util.*;
 
@@ -19,7 +17,9 @@ public class ClanCommand extends Command {
         addCommand(
                 new AcceptCommand("accept", "Accept a clan invitation", "/clan accept <name>"),
                 new CreateCommand("create", "Create a new clan", "/clan create <name>"),
-                new InviteCommand("invite", "Invite a player to join the clan", "/clan invite <player>")
+                new DenyCommand("deny", "Deny a clan invitation", "/clan deny <clan>"),
+                new InviteCommand("invite", "Invite a player to join the clan", "/clan invite <player>"),
+                new KickCommand("kick", "Kick a player from the clan", "/clan kick <player>")
         );
     }
 

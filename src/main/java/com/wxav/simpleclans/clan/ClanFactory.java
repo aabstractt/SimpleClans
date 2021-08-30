@@ -57,7 +57,7 @@ public class ClanFactory {
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public void createClan(Clan clanConfiguration) {
+    public void saveClan(Clan clanConfiguration) {
         File file = new File(SimpleClans.getInstance().getDataFolder(), "clans/" + clanConfiguration.getName() + ".yml");
 
         File parent = file.getParentFile();

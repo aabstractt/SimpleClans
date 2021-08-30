@@ -4,13 +4,14 @@ import cn.nukkit.Player;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.utils.TextFormat;
 import com.wxav.simpleclans.clan.Clan;
+import com.wxav.simpleclans.clan.ClanFactory;
 import com.wxav.simpleclans.command.SubCommand;
 import com.wxav.simpleclans.session.Session;
 import com.wxav.simpleclans.session.SessionFactory;
 
-public class InviteCommand extends SubCommand {
+public class KickCommand extends SubCommand {
 
-    public InviteCommand(String name, String description, String usage) {
+    public KickCommand(String name, String description, String usage) {
         super(name, description, usage);
     }
 
@@ -23,7 +24,7 @@ public class InviteCommand extends SubCommand {
         }
 
         if (args.length == 0) {
-            sender.sendMessage(TextFormat.RED + "Use /" + label + " invite <player>");
+            sender.sendMessage(TextFormat.RED + "Use /" + label + " kick <player>");
 
             return;
         }
@@ -37,7 +38,7 @@ public class InviteCommand extends SubCommand {
             return;
         }
 
-        if (!session.getRole().canInvite()) {
+        if (!session.getRole().canKick()) {
             session.sendTranslatedMessage("YOU_CAN_USE_THIS");
 
             return;
@@ -51,21 +52,19 @@ public class InviteCommand extends SubCommand {
             return;
         }
 
-        if (target.hasInvite(clan.getUniqueId())) {
-            session.sendTranslatedMessage("ALREADY_INVITED");
+        if (!clan.getMembers().contains(target.getName())) {
+            session.sendTranslatedMessage("PLAYER_NOT_IS_MEMBER", target.getName());
 
             return;
         }
 
-        if (target.getClan() != null) {
-            session.sendTranslatedMessage("PLAYER_ALREADY_HAVE_CLAN", target.getName());
+        clan.removeMember(target.getName());
+        ClanFactory.getInstance().saveClan(clan);
 
-            return;
+        target.sendTranslatedMessage("CLAN_KICKED", session.getName());
+
+        for (Session member : clan.getMembersOnline()) {
+            member.sendTranslatedMessage("PLAYER_KICKED", target.getName(), session.getName());
         }
-
-        target.addInvite(clan.getUniqueId());
-        target.sendTranslatedMessage("CLAN_INVITE_RECEIVED", session.getName(), clan.getName());
-
-        session.sendTranslatedMessage("INVITATION_SUCCESSFULLY_SENT", target.getName());
     }
 }

@@ -3,15 +3,15 @@ package com.wxav.simpleclans.command.subcommand;
 import cn.nukkit.Player;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.utils.TextFormat;
+import com.wxav.simpleclans.SimpleClans;
 import com.wxav.simpleclans.clan.Clan;
-import com.wxav.simpleclans.clan.ClanFactory;
 import com.wxav.simpleclans.command.SubCommand;
 import com.wxav.simpleclans.session.Session;
 import com.wxav.simpleclans.session.SessionFactory;
 
-public class AcceptCommand extends SubCommand {
+public class DenyCommand extends SubCommand {
 
-    public AcceptCommand(String name, String description, String usage) {
+    public DenyCommand(String name, String description, String usage) {
         super(name, description, usage);
     }
 
@@ -24,7 +24,7 @@ public class AcceptCommand extends SubCommand {
         }
 
         if (args.length == 0) {
-            sender.sendMessage(TextFormat.RED + "Use /" + label + " accept <player>");
+            sender.sendMessage(TextFormat.RED + "Use /" + label + " deny <player>");
 
             return;
         }
@@ -59,16 +59,18 @@ public class AcceptCommand extends SubCommand {
             return;
         }
 
-        session.removeInvite(null);
+        session.removeInvite(clan.getUniqueId());
 
-        clan.member(session.getName());
-        ClanFactory.getInstance().saveClan(clan);
+        session.sendTranslatedMessage("CLAN_INVITATION_DENIED", target.getName(), clan.getName());
 
-        session.sendTranslatedMessage("CLAN_INVITATION_ACCEPTED", target.getName(), clan.getName());
-        target.sendTranslatedMessage("PLAYER_INVITATION_ACCEPTED", session.getName());
+        if (!SimpleClans.version().development() && !SimpleClans.getInstance().getConfig().getBoolean("deny-invite-message-members")) {
+            target.sendTranslatedMessage("PLAYER_INVITATION_DENIED", session.getName());
+
+            return;
+        }
 
         for (Session member : clan.getMembersOnline()) {
-            member.sendTranslatedMessage("PLAYER_JOINED_CLAN", session.getName());
+            member.sendTranslatedMessage("PLAYER_INVITATION_DENIED", session.getName());
         }
     }
 }
