@@ -4,8 +4,9 @@ import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.plugin.PluginLogger;
 import cn.nukkit.utils.LogLevel;
 import cn.nukkit.utils.TextFormat;
-import com.creeperface.nukkit.placeholderapi.api.PlaceholderAPI;
 import com.wxav.simpleclans.command.ClanCommand;
+import com.wxav.simpleclans.listener.EntityDamageByEntityListener;
+import com.wxav.simpleclans.listener.PlayerChatListener;
 import com.wxav.simpleclans.listener.PlayerJoinListener;
 import com.wxav.simpleclans.listener.PlayerQuitListener;
 import lombok.Getter;
@@ -22,8 +23,6 @@ public class SimpleClans extends PluginBase {
     private static SimpleClans instance;
 
     private static final VersionInfo versionInfo = loadVersion();
-
-    public PlaceholderAPI api = null;
 
     private final Map<String, Object> messages = new HashMap<>();
 
@@ -58,10 +57,10 @@ public class SimpleClans extends PluginBase {
 
         getServer().getCommandMap().register("clan", new ClanCommand("clan", "Manage your clan"));
 
+        getServer().getPluginManager().registerEvents(new EntityDamageByEntityListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerChatListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
-
-        api = PlaceholderAPI.getInstance();
     }
 
     private void loadMessages() {

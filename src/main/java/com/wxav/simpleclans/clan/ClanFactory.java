@@ -44,7 +44,7 @@ public class ClanFactory {
     }
 
     public Clan getClanName(String name) {
-        return this.clanMap.get(name.toLowerCase());
+        return name == null ? null : this.clanMap.get(name.toLowerCase());
     }
 
     public boolean clanExists(String name) {

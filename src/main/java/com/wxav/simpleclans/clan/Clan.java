@@ -15,6 +15,7 @@ public class Clan {
     private String name;
     private String leader;
     private List<String> members = new ArrayList<>();
+    private String motd = "";
     private Map<String, Object> homePosition = new HashMap<>();
 
     public Clan uniqueId() {

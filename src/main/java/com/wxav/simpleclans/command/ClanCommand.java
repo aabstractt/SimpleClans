@@ -20,9 +20,11 @@ public class ClanCommand extends Command {
                 new DemoteCommand("demote", "Demote a player role"),
                 new DenyCommand("deny", "Deny a clan invitation"),
                 new HomeCommand("home", "Teleport to the clan home"),
+                new InfoCommand("info", "See the clan info"),
                 new InviteCommand("invite", "Invite a player to join the clan"),
                 new KickCommand("kick", "Kick a player from the clan"),
                 new LeaveCommand("leave", "Leave from the clan"),
+                new MotdCommand("motd", "Change the clan motd"),
                 new PromoteCommand("promote", "Promote a player role"),
                 new SetHomeCommand("sethome", "Set a home position")
         );
