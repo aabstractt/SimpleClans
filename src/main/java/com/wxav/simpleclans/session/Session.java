@@ -5,7 +5,7 @@ import cn.nukkit.Server;
 import com.wxav.simpleclans.SimpleClans;
 import com.wxav.simpleclans.clan.Clan;
 import com.wxav.simpleclans.clan.ClanFactory;
-import com.wxav.simpleclans.clan.ClanRole;
+import com.wxav.simpleclans.clan.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +23,7 @@ public class Session {
     @Setter
     private String clanName;
     @Setter
-    private ClanRole role;
+    private Role role;
 
     private List<String> invites;
 

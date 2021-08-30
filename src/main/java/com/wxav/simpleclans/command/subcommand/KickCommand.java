@@ -59,7 +59,10 @@ public class KickCommand extends SubCommand {
         }
 
         clan.removeMember(target.getName());
+        target.setClanName(null);
+
         ClanFactory.getInstance().saveClan(clan);
+        SessionFactory.getInstance().saveSession(target);
 
         target.sendTranslatedMessage("CLAN_KICKED", session.getName());
 

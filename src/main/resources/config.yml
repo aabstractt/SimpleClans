@@ -1,1 +1,18 @@
+role:
+  member:
+    invite: false
+    kick: false
+    modifyHome: false
+    modifyMotd: false
+  officer:
+    invite: true
+    kick: false
+    modifyHome: false
+    modifyMotd: true
+  coleader:
+    invite: true
+    kick: true
+    modifyHome: false
+    modifyMotd: false
+
 deny-invite-message-members: true

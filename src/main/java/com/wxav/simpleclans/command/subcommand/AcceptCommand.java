@@ -62,7 +62,10 @@ public class AcceptCommand extends SubCommand {
         session.removeInvite(null);
 
         clan.member(session.getName());
+        session.setClanName(clan.getName());
+
         ClanFactory.getInstance().saveClan(clan);
+        SessionFactory.getInstance().saveSession(session);
 
         session.sendTranslatedMessage("CLAN_INVITATION_ACCEPTED", target.getName(), clan.getName());
         target.sendTranslatedMessage("PLAYER_INVITATION_ACCEPTED", session.getName());

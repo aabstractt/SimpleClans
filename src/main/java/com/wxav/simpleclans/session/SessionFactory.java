@@ -4,6 +4,7 @@ import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.utils.Config;
 import com.wxav.simpleclans.SimpleClans;
+import com.wxav.simpleclans.clan.Role;
 import lombok.Getter;
 
 import java.io.File;
@@ -21,7 +22,11 @@ public class SessionFactory {
     private final Config config = new Config(new File(SimpleClans.getInstance().getDataFolder(), "players_clan.yml"));
 
     public Session createSession(Player player) {
-        Session session = new Session(player.getName(), player.getUniqueId(), this.config.getString(player.getName().toLowerCase(), null), Collections.emptyList());
+        String name = player.getName().toLowerCase();
+
+        String roleName = this.config.getString(name + ".role", null);
+
+        Session session = new Session(player.getName(), player.getUniqueId(), this.config.getString(name + ".clan", null), roleName != null ? Role.valueOf(roleName) : null, Collections.emptyList());
 
         this.sessions.put(player.getName().toLowerCase(), session);
 
@@ -51,11 +56,18 @@ public class SessionFactory {
     }
 
     public void saveSession(Session session) {
+        String name = session.getName().toLowerCase();
+
         if (session.getClanName() == null) {
-            return;
+            this.config.remove(name);
+        } else {
+            this.config.set(name + ".clan", session.getClanName());
+
+            if (session.getRole() != null) {
+                this.config.set(name + ".role", session.getRole().name());
+            }
         }
 
-        this.config.set(session.getName(), session.getClanName());
         this.config.save();
     }
 }
