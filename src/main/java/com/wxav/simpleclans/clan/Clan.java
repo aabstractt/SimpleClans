@@ -6,9 +6,7 @@ import com.wxav.simpleclans.session.SessionFactory;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -18,6 +16,7 @@ public class Clan {
     private String name;
     private String leader;
     private List<String> members = new ArrayList<>();
+    private Map<String, Object> homePosition = new HashMap<>();
 
     public Clan uniqueId() {
         this.uniqueId = UUID.randomUUID().toString();
@@ -76,6 +75,8 @@ public class Clan {
         this.members.forEach(config::remove);
 
         config.save();
+
+        ClanFactory.getInstance().removeClan(this);
     }
 
     @Override

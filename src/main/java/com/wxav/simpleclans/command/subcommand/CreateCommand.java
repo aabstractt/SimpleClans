@@ -44,6 +44,8 @@ public class CreateCommand extends SubCommand {
             return;
         }
 
+        session.sendTranslatedMessage("CLAN_CREATE_SUCCESSFULLY");
+
         session.setClanName(args[0]);
         session.setRole(Role.LEADER);
 

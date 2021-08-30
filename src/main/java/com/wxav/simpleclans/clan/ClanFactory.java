@@ -82,4 +82,18 @@ public class ClanFactory {
             MainLogger.getLogger().error("Unable to save Config " + file, e);
         }
     }
+
+    public void removeClan(Clan clan) {
+        File file = new File(SimpleClans.getInstance().getDataFolder(), "clans/" + clan.getName() + ".yml");
+
+        if (!file.exists()) {
+            return;
+        }
+
+        if (!file.delete()) {
+            return;
+        }
+
+        this.clanMap.remove(clan.getName().toLowerCase());
+    }
 }
