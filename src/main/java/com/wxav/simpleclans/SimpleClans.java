@@ -46,7 +46,7 @@ public class SimpleClans extends PluginBase {
         logger.info("§9Build Author: " + versionInfo.author());
         logger.info("§9Development Build: " + versionInfo.development());
 
-        if (!versionInfo.development() || (versionInfo.buildVersion().equals("#build") || versionInfo.branchName().equals("unknown"))) {
+        if (versionInfo.development() || (versionInfo.buildVersion().equals("#build") || versionInfo.branchName().equals("unknown"))) {
             logger.error("Custom build? Unofficial builds should be not run in production!");
         } else {
             logger.info("§bDiscovered branch §9" + versionInfo.branchName() + "§b commitId §9" + versionInfo.commitId());
