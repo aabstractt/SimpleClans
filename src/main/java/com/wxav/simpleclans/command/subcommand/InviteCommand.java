@@ -38,7 +38,7 @@ public class InviteCommand extends SubCommand {
         }
 
         if (!session.getRole().canInvite()) {
-            session.sendTranslatedMessage("YOU_CAN_USE_THIS");
+            session.sendTranslatedMessage("YOU_CANT_USE_THIS");
 
             return;
         }

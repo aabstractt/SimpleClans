@@ -4,14 +4,14 @@ import cn.nukkit.Player;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.utils.TextFormat;
 import com.wxav.simpleclans.clan.Clan;
-import com.wxav.simpleclans.clan.ClanFactory;
+import com.wxav.simpleclans.clan.Role;
 import com.wxav.simpleclans.command.SubCommand;
 import com.wxav.simpleclans.session.Session;
 import com.wxav.simpleclans.session.SessionFactory;
 
-public class KickCommand extends SubCommand {
+public class PromoteCommand extends SubCommand {
 
-    public KickCommand(String name, String description, String usage) {
+    public PromoteCommand(String name, String description, String usage) {
         super(name, description, usage);
     }
 
@@ -38,7 +38,7 @@ public class KickCommand extends SubCommand {
             return;
         }
 
-        if (!session.getRole().canKick()) {
+        if (!session.getRole().canPromote()) {
             session.sendTranslatedMessage("YOU_CANT_USE_THIS");
 
             return;
@@ -58,16 +58,28 @@ public class KickCommand extends SubCommand {
             return;
         }
 
-        clan.removeMember(target.getName());
-        target.setClanName(null);
+        if (target.getRole().ordinal() >= Role.COLEADER.getId()) {
+            session.sendTranslatedMessage("YOU_CANNOT_PROMOTE_PLAYER", target.getName());
 
-        ClanFactory.getInstance().saveClan(clan);
-        SessionFactory.getInstance().saveSession(target);
+            return;
+        }
 
-        target.sendTranslatedMessage("CLAN_KICKED", session.getName());
+        Role targetRole = Role.valueOf(target.getRole().ordinal() + 1);
+
+        if (targetRole == null) {
+            return;
+        }
+
+        session.setRole(targetRole);
+        SessionFactory.getInstance().saveSession(session);
+
+        // TODO: charAt(0) = uppercase and the rest lowercase, example: Member
+        String roleName = targetRole.name().charAt(0) + targetRole.name().substring(1).toLowerCase();
+
+        target.sendTranslatedMessage("YOU_HAVE_BEEN_PROMOTED", session.getName(), roleName);
 
         for (Session member : clan.getMembersOnline()) {
-            member.sendTranslatedMessage("PLAYER_KICKED", target.getName(), session.getName());
+            member.sendTranslatedMessage("PLAYER_PROMOTED", target.getName(), roleName, session.getName());
         }
     }
 }

@@ -30,4 +30,22 @@ public enum Role {
     public boolean canModifyMotd() {
         return name().equals(LEADER.name()) || SimpleClans.getInstance().getConfig().getBoolean("role." + name().toLowerCase() + ".modifyMotd");
     }
+
+    public boolean canPromote() {
+        return name().equals(LEADER.name());
+    }
+
+    public boolean canDemote() {
+        return name().equals(LEADER.name());
+    }
+
+    public static Role valueOf(int ordinal) {
+        for (Role value : values()) {
+            if (value.ordinal() == ordinal) {
+                return value;
+            }
+        }
+
+        return null;
+    }
 }
