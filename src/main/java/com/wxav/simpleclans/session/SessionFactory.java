@@ -8,7 +8,6 @@ import com.wxav.simpleclans.clan.Role;
 import lombok.Getter;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +25,11 @@ public class SessionFactory {
 
         String roleName = this.config.getString(name + ".role", null);
 
-        Session session = new Session(player.getName(), player.getUniqueId(), this.config.getString(name + ".clan", null), roleName != null ? Role.valueOf(roleName) : null, Collections.emptyList());
+        if (roleName.equals("null")) {
+            roleName = null;
+        }
+
+        Session session = new Session(player.getName(), player.getUniqueId(), this.config.getString(name + ".clan", null), roleName != null ? Role.valueOf(roleName) : null);
 
         this.sessions.put(player.getName().toLowerCase(), session);
 
@@ -55,17 +58,14 @@ public class SessionFactory {
         return this.sessions.get(name.toLowerCase());
     }
 
-    public void saveSession(Session session) {
-        String name = session.getName().toLowerCase();
-
-        if (session.getClanName() == null) {
-            this.config.remove(name);
+    public void saveSession(Session session, boolean remove) {
+        if (remove) {
+            this.config.remove(session.getName().toLowerCase());
         } else {
-            this.config.set(name + ".clan", session.getClanName());
-
-            if (session.getRole() != null) {
-                this.config.set(name + ".role", session.getRole().name());
-            }
+            this.config.set(session.getName().toLowerCase(), new HashMap<String, String>() {{
+                put("clan", session.getClanName());
+                put("role", session.getRole().name());
+            }});
         }
 
         this.config.save();

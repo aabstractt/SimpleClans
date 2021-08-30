@@ -10,22 +10,32 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@AllArgsConstructor
 @Getter
 public class Session {
 
-    private String name;
+    private final String name;
 
-    private UUID uniqueId;
+    private final UUID uniqueId;
     @Setter
     private String clanName;
     @Setter
     private Role role;
 
-    private List<String> invites;
+    private final List<String> invites = new ArrayList<>();
+
+    public Session(String name, UUID uniqueId, String clanName, Role role) {
+        this.name = name;
+
+        this.uniqueId = uniqueId;
+
+        this.clanName = clanName;
+
+        this.role = role;
+    }
 
     public Clan getClan() {
         return ClanFactory.getInstance().getClanName(this.clanName);

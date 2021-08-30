@@ -63,6 +63,7 @@ public class InviteCommand extends SubCommand {
             return;
         }
 
+        System.out.println(clan.getUniqueId() + " > " + target.getInvites());
         target.addInvite(clan.getUniqueId());
         target.sendTranslatedMessage("CLAN_INVITE_RECEIVED", session.getName(), clan.getName());
 

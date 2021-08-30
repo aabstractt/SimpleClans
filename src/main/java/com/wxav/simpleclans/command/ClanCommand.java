@@ -17,6 +17,7 @@ public class ClanCommand extends Command {
         addCommand(
                 new AcceptCommand("accept", "Accept a clan invitation", "/clan accept <name>"),
                 new CreateCommand("create", "Create a new clan", "/clan create <name>"),
+                new DemoteCommand("demote", "Demote a player role", "/clan demote <player>"),
                 new DenyCommand("deny", "Deny a clan invitation", "/clan deny <clan>"),
                 new InviteCommand("invite", "Invite a player to join the clan", "/clan invite <player>"),
                 new KickCommand("kick", "Kick a player from the clan", "/clan kick <player>"),

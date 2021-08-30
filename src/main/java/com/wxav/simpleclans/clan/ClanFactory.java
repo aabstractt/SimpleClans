@@ -56,9 +56,13 @@ public class ClanFactory {
         return (new File(SimpleClans.getInstance().getDataFolder(), "clans/" + name + ".yml")).exists();
     }
 
+    public void saveClan(Clan clan) {
+        saveClan(clan, false);
+    }
+
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public void saveClan(Clan clanConfiguration) {
-        File file = new File(SimpleClans.getInstance().getDataFolder(), "clans/" + clanConfiguration.getName() + ".yml");
+    public void saveClan(Clan clan, boolean add) {
+        File file = new File(SimpleClans.getInstance().getDataFolder(), "clans/" + clan.getName() + ".yml");
 
         File parent = file.getParentFile();
 
@@ -69,7 +73,11 @@ public class ClanFactory {
         Yaml yaml = new Yaml();
 
         try (FileWriter fileWriter = new FileWriter(file)) {
-            fileWriter.write(yaml.dumpAsMap(clanConfiguration));
+            fileWriter.write(yaml.dumpAsMap(clan));
+
+            if (add) {
+                this.clanMap.put(clan.getName().toLowerCase(), clan);
+            }
         } catch (IOException e) {
             MainLogger.getLogger().error("Unable to save Config " + file, e);
         }

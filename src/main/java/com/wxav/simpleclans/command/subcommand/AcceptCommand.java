@@ -5,6 +5,7 @@ import cn.nukkit.command.CommandSender;
 import cn.nukkit.utils.TextFormat;
 import com.wxav.simpleclans.clan.Clan;
 import com.wxav.simpleclans.clan.ClanFactory;
+import com.wxav.simpleclans.clan.Role;
 import com.wxav.simpleclans.command.SubCommand;
 import com.wxav.simpleclans.session.Session;
 import com.wxav.simpleclans.session.SessionFactory;
@@ -63,9 +64,10 @@ public class AcceptCommand extends SubCommand {
 
         clan.member(session.getName());
         session.setClanName(clan.getName());
+        session.setRole(Role.MEMBER);
 
         ClanFactory.getInstance().saveClan(clan);
-        SessionFactory.getInstance().saveSession(session);
+        SessionFactory.getInstance().saveSession(session, false);
 
         session.sendTranslatedMessage("CLAN_INVITATION_ACCEPTED", target.getName(), clan.getName());
         target.sendTranslatedMessage("PLAYER_INVITATION_ACCEPTED", session.getName());

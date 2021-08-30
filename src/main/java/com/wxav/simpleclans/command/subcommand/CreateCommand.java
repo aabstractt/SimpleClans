@@ -5,6 +5,7 @@ import cn.nukkit.command.CommandSender;
 import cn.nukkit.utils.TextFormat;
 import com.wxav.simpleclans.clan.Clan;
 import com.wxav.simpleclans.clan.ClanFactory;
+import com.wxav.simpleclans.clan.Role;
 import com.wxav.simpleclans.command.SubCommand;
 import com.wxav.simpleclans.session.Session;
 import com.wxav.simpleclans.session.SessionFactory;
@@ -44,8 +45,10 @@ public class CreateCommand extends SubCommand {
         }
 
         session.setClanName(args[0]);
-        SessionFactory.getInstance().saveSession(session);
+        session.setRole(Role.LEADER);
 
-        ClanFactory.getInstance().saveClan(new Clan().uniqueId().name(args[0]).leader(session.getName()).member(session.getName()));
+        SessionFactory.getInstance().saveSession(session, false);
+
+        ClanFactory.getInstance().saveClan(new Clan().uniqueId().name(args[0]).leader(session.getName()).member(session.getName()), true);
     }
 }

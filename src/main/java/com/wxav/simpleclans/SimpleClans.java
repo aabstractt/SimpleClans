@@ -3,6 +3,7 @@ package com.wxav.simpleclans;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.plugin.PluginLogger;
 import cn.nukkit.utils.LogLevel;
+import cn.nukkit.utils.TextFormat;
 import com.creeperface.nukkit.placeholderapi.api.PlaceholderAPI;
 import com.wxav.simpleclans.command.ClanCommand;
 import com.wxav.simpleclans.listener.PlayerJoinListener;
@@ -52,7 +53,7 @@ public class SimpleClans extends PluginBase {
             logger.info("§bDiscovered branch §9" + versionInfo.branchName() + "§b commitId §9" + versionInfo.commitId());
         }
 
-        saveResource("messages.properties");
+        saveResource("messages.properties", version().development());
         loadMessages();
 
         getServer().getCommandMap().register("clan", new ClanCommand("clan", "Manage your clan"));
@@ -88,7 +89,7 @@ public class SimpleClans extends PluginBase {
             message = message.replaceAll("\\{%" + i + "}", args[i]);
         }
 
-        return message;
+        return TextFormat.colorize(message);
     }
 
     public static VersionInfo version() {

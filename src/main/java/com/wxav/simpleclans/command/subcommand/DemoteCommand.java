@@ -9,9 +9,9 @@ import com.wxav.simpleclans.command.SubCommand;
 import com.wxav.simpleclans.session.Session;
 import com.wxav.simpleclans.session.SessionFactory;
 
-public class PromoteCommand extends SubCommand {
+public class DemoteCommand extends SubCommand {
 
-    public PromoteCommand(String name, String description, String usage) {
+    public DemoteCommand(String name, String description, String usage) {
         super(name, description, usage);
     }
 
@@ -38,7 +38,7 @@ public class PromoteCommand extends SubCommand {
             return;
         }
 
-        if (!session.getRole().canPromote()) {
+        if (!session.getRole().canDemote()) {
             session.sendTranslatedMessage("YOU_CANT_USE_THIS");
 
             return;
@@ -58,13 +58,13 @@ public class PromoteCommand extends SubCommand {
             return;
         }
 
-        if (target.getRole().ordinal() >= Role.COLEADER.getId()) {
-            session.sendTranslatedMessage("YOU_CANNOT_PROMOTE_PLAYER", target.getName());
+        if (target.getRole().ordinal() == Role.MEMBER.ordinal() || target.getRole().ordinal() == Role.LEADER.ordinal()) {
+            session.sendTranslatedMessage("YOU_CANNOT_DEMOTE_PLAYER", target.getName());
 
             return;
         }
 
-        Role targetRole = Role.valueOf(target.getRole().ordinal() + 1);
+        Role targetRole = Role.valueOf(target.getRole().ordinal() - 1);
 
         if (targetRole == null) {
             return;
@@ -76,10 +76,10 @@ public class PromoteCommand extends SubCommand {
         // TODO: charAt(0) = uppercase and the rest lowercase, example: Member
         String roleName = targetRole.name().charAt(0) + targetRole.name().substring(1).toLowerCase();
 
-        target.sendTranslatedMessage("YOU_HAVE_BEEN_PROMOTED", session.getName(), roleName);
+        target.sendTranslatedMessage("YOU_HAVE_BEEN_DEMOTED", session.getName(), roleName);
 
         for (Session member : clan.getMembersOnline()) {
-            member.sendTranslatedMessage("PLAYER_PROMOTED", target.getName(), roleName, session.getName());
+            member.sendTranslatedMessage("PLAYER_DEMOTED", target.getName(), roleName, session.getName());
         }
     }
 }

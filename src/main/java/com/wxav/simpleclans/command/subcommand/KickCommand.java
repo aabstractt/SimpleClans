@@ -52,7 +52,7 @@ public class KickCommand extends SubCommand {
             return;
         }
 
-        if (!clan.getMembers().contains(target.getName())) {
+        if (!clan.getMembers().contains(target.getName().toLowerCase())) {
             session.sendTranslatedMessage("PLAYER_NOT_IS_MEMBER", target.getName());
 
             return;
@@ -62,7 +62,7 @@ public class KickCommand extends SubCommand {
         target.setClanName(null);
 
         ClanFactory.getInstance().saveClan(clan);
-        SessionFactory.getInstance().saveSession(target);
+        SessionFactory.getInstance().saveSession(target, true);
 
         target.sendTranslatedMessage("CLAN_KICKED", session.getName());
 
