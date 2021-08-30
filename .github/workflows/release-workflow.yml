@@ -1,0 +1,53 @@
+name: Release build
+on:
+  push:
+    branches:
+      - release
+    tags:
+      - 'v*'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: "contains(github.event.head_commit.message, '[Release]')"
+    steps:
+      - name: Startup
+        uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Parse Commit name
+        id: cpn
+        uses: bluwy/substitute-string-action@v1
+        with:
+          _input-text: ${{ github.event.head_commit.message }}
+          '[Release]': ${{ '' }}
+      - name: Replace
+        id: replace
+        uses: frabert/replace-string-action@v2.0
+        with:
+          string: ${{steps.cpn.outputs.result}}
+          pattern: ' '
+          replace_with: ''
+          flags: 'g'
+      - name: Build with Maven
+        run: |
+          sed -i -e s/#build/${{github.run_number}}/g ./src/main/java/com/wxav/simpleclans/VersionInfo.java
+          mvn -B install --file pom.xml
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.run_number }}
+          release_name: ${{ github.run_number }} released by ${{ github.actor }}
+          draft: false
+          prerelease: false
+      - name: Upload asset to release
+        uses: csexton/release-asset-action@v2
+        with:
+          files: |
+            ./target/SimpleClans.jar
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          release-url: ${{ steps.create_release.outputs.upload_url }}
