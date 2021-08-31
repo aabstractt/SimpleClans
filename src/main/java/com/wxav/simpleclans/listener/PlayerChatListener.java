@@ -19,7 +19,8 @@ public class PlayerChatListener implements Listener {
         }
 
         String prefix = SimpleClans.translateMessage(session.getClan() == null ? "NO_CLAN" : "WITH_CLAN", session.getClanName());
+        String rankPrefix = session.getClan() != null ? SimpleClans.translateMessage("RANK_PREFIX", session.getRole().simpleName()) : "";
 
-        ev.setFormat(ev.getFormat().replaceAll("%CLAN_PREFIX%", prefix));
+        ev.setFormat(ev.getFormat().replaceAll("%CLAN_PREFIX%", prefix).replaceAll("%CLAN_RANK%", rankPrefix));
     }
 }

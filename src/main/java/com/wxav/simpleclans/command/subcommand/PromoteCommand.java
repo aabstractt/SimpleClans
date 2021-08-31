@@ -73,13 +73,10 @@ public class PromoteCommand extends SubCommand {
         session.setRole(targetRole);
         SessionFactory.getInstance().saveSession(session);
 
-        // TODO: charAt(0) = uppercase and the rest lowercase, example: Member
-        String roleName = targetRole.name().charAt(0) + targetRole.name().substring(1).toLowerCase();
-
-        target.sendTranslatedMessage("YOU_HAVE_BEEN_PROMOTED", session.getName(), roleName);
+        target.sendTranslatedMessage("YOU_HAVE_BEEN_PROMOTED", session.getName(), targetRole.simpleName());
 
         for (Session member : clan.getMembersOnline()) {
-            member.sendTranslatedMessage("PLAYER_PROMOTED", target.getName(), roleName, session.getName());
+            member.sendTranslatedMessage("PLAYER_PROMOTED", target.getName(), targetRole.simpleName(), session.getName());
         }
     }
 }

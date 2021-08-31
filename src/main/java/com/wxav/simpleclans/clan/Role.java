@@ -9,6 +9,12 @@ public enum Role {
     COLEADER(),
     LEADER();
 
+    public String simpleName() {
+        // TODO: charAt(0) = uppercase and the rest lowercase, example: Member
+
+        return name().charAt(0) + name().substring(1).toLowerCase();
+    }
+
     public boolean canInvite() {
         return name().equals(LEADER.name()) || SimpleClans.getInstance().getConfig().getBoolean("role." + name().toLowerCase() + ".invite");
     }

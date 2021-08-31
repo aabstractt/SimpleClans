@@ -43,7 +43,7 @@ public class ClanCommand extends Command {
             commandSender.sendMessage(TextFormat.BLUE + "SimpleClans commands:");
 
             for (SubCommand command : this.commandMap.values()) {
-                commandSender.sendMessage(SimpleClans.translateMessage("COMMAND_HELP", command.getName(), command.getDescription()));
+                commandSender.sendMessage(SimpleClans.translateMessage("COMMAND_HELP", label, command.getName(), command.getDescription()));
             }
 
             return false;

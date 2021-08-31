@@ -37,6 +37,6 @@ public class InfoCommand extends SubCommand {
             return;
         }
 
-        session.sendTranslatedMessage("CLAN_INFO", clan.getName(), clan.getLeader(), String.valueOf(clan.getMembers().size()), String.valueOf(clan.getMembersOnline().size()), clan.getMotd());
+        session.sendTranslatedMessage("CLAN_INFO", clan.getName(), clan.getLeader(), String.valueOf(clan.getMembers().size()), String.valueOf(clan.getMembersOnline().size()), String.valueOf(Math.abs(clan.getMembers().size() - clan.getMembersOnline().size())), clan.getMotd());
     }
 }
