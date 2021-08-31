@@ -52,6 +52,7 @@ public class SimpleClans extends PluginBase {
             logger.info("§bDiscovered branch §9" + versionInfo.branchName() + "§b commitId §9" + versionInfo.commitId());
         }
 
+        saveDefaultConfig();
         saveResource("messages.properties", version().development());
         loadMessages();
 

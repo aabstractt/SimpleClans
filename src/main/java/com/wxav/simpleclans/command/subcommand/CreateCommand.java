@@ -45,7 +45,7 @@ public class CreateCommand extends SubCommand {
             return;
         }
 
-        if (args[0].length() > SimpleClans.getInstance().getConfig().getInt("max-characters") || args[0].length() < SimpleClans.getInstance().getConfig().getInt("min-characters")) {
+        if (args[0].length() > SimpleClans.getInstance().getConfig().getInt("max-characters") || SimpleClans.getInstance().getConfig().getInt("min-characters") > args[0].length()) {
             session.sendTranslatedMessage("INVALID_NAME", args[0]);
 
             return;
