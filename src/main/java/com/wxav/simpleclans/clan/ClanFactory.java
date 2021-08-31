@@ -50,8 +50,6 @@ public class ClanFactory {
             );
 
             this.clanMap.put(clan.getName().toLowerCase(), clan);
-
-            System.out.println(clan);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

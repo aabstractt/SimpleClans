@@ -16,3 +16,6 @@ role:
     modifyMotd: false
 
 deny-invite-message-members: true
+
+min-characters: 4
+max-characters: 12

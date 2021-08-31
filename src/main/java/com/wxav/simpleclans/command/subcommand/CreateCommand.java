@@ -3,6 +3,7 @@ package com.wxav.simpleclans.command.subcommand;
 import cn.nukkit.Player;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.utils.TextFormat;
+import com.wxav.simpleclans.SimpleClans;
 import com.wxav.simpleclans.clan.Clan;
 import com.wxav.simpleclans.clan.ClanFactory;
 import com.wxav.simpleclans.clan.Role;
@@ -40,6 +41,12 @@ public class CreateCommand extends SubCommand {
 
         if (ClanFactory.getInstance().clanExists(args[0])) {
             session.sendTranslatedMessage("CLAN_ALREADY_EXISTS", args[0]);
+
+            return;
+        }
+
+        if (args[0].length() > SimpleClans.getInstance().getConfig().getInt("max-characters") || SimpleClans.getInstance().getConfig().getInt("min-characters") > args[0].length()) {
+            session.sendTranslatedMessage("INVALID_NAME", args[0]);
 
             return;
         }
