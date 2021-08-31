@@ -2,11 +2,13 @@ package com.wxav.simpleclans.clan;
 
 import com.wxav.simpleclans.session.Session;
 import com.wxav.simpleclans.session.SessionFactory;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.*;
 
+@AllArgsConstructor
 @Getter
 @Setter
 public class Clan {
@@ -17,6 +19,10 @@ public class Clan {
     private List<String> members = new ArrayList<>();
     private String motd = "";
     private Map<String, Object> homePosition = new HashMap<>();
+
+    public Clan() {
+        // TODO: Empty constructor
+    }
 
     public Clan uniqueId() {
         this.uniqueId = UUID.randomUUID().toString();
@@ -70,7 +76,9 @@ public class Clan {
             session.setRole(null);
         }
 
-        this.members.forEach(SessionFactory.getInstance()::removeSession);
+        for (String name : this.members) {
+            SessionFactory.getInstance().saveSession(new Session(name, UUID.randomUUID(), null, null), true);
+        }
 
         ClanFactory.getInstance().removeClan(this);
     }

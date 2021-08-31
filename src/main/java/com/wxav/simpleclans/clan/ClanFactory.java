@@ -4,10 +4,10 @@ import cn.nukkit.utils.MainLogger;
 import com.wxav.simpleclans.SimpleClans;
 import lombok.Getter;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ClanFactory {
@@ -17,6 +17,7 @@ public class ClanFactory {
 
     private final Map<String, Clan> clanMap = new HashMap<>();
 
+    @SuppressWarnings("unchecked")
     public void loadClan(String name) {
         if (name == null || name.equals("null") || this.clanMap.containsKey(name.toLowerCase())) {
             return;
@@ -31,13 +32,26 @@ public class ClanFactory {
         try {
             InputStream inputStream = new FileInputStream(file);
 
-            Yaml yaml = new Yaml(new Constructor(Clan.class));
+            Yaml yaml = new Yaml();
 
-            Clan clan = yaml.load(inputStream);
+            Map<String, Object> data = yaml.load(inputStream);
 
-            System.out.println(clan);
+            if (data == null) {
+                return;
+            }
+
+            Clan clan = new Clan(
+                    data.get("uniqueId").toString(),
+                    data.get("name").toString(),
+                    data.get("leader").toString(),
+                    (List<String>) data.get("members"),
+                    data.get("motd").toString(),
+                    (Map<String, Object>) data.get("homePosition")
+            );
 
             this.clanMap.put(clan.getName().toLowerCase(), clan);
+
+            System.out.println(clan);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

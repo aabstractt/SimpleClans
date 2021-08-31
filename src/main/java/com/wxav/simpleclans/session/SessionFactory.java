@@ -2,12 +2,13 @@ package com.wxav.simpleclans.session;
 
 import cn.nukkit.Player;
 import cn.nukkit.Server;
-import cn.nukkit.utils.Config;
+import cn.nukkit.utils.MainLogger;
 import com.wxav.simpleclans.SimpleClans;
 import com.wxav.simpleclans.clan.Role;
 import lombok.Getter;
+import org.yaml.snakeyaml.Yaml;
 
-import java.io.File;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,18 +19,22 @@ public class SessionFactory {
 
     private final Map<String, Session> sessions = new HashMap<>();
 
+    @SuppressWarnings("unchecked")
     public Session createSession(Player player) {
-        String name = player.getName().toLowerCase();
+        Map<String, Object> data = getConfigData();
 
-        Config config = new Config(new File(SimpleClans.getInstance().getDataFolder(), "players_clan.yml"));
+        data = (Map<String, Object>) data.getOrDefault(player.getName(), null);
 
-        String roleName = config.getString(name + ".role", null);
+        String roleName = null;
+        String clanName = null;
 
-        if (roleName.equals("null")) {
-            roleName = null;
+        if (data != null) {
+            roleName = data.get("role").toString();
+
+            clanName = data.get("clan").toString();
         }
 
-        Session session = new Session(player.getName(), player.getUniqueId(), config.getString(name + ".clan", null), roleName != null ? Role.valueOf(roleName) : null);
+        Session session = new Session(player.getName(), player.getUniqueId(), clanName, roleName != null ? Role.valueOf(roleName) : null);
 
         this.sessions.put(player.getName().toLowerCase(), session);
 
@@ -59,21 +64,58 @@ public class SessionFactory {
     }
 
     public void saveSession(Session session) {
-        Config config = new Config(new File(SimpleClans.getInstance().getDataFolder(), "players_clan.yml"));
-
-        config.set(session.getName().toLowerCase(), new HashMap<String, String>() {{
-            put("clan", session.getClanName());
-            put("role", session.getRole().name());
-        }});
-
-        config.save();
+        saveSession(session, false);
     }
 
-    public void removeSession(String name) {
-        Config config = new Config(new File(SimpleClans.getInstance().getDataFolder(), "players_clan.yml"));
+    public void saveSession(Session session, boolean remove) {
+        File file = new File(SimpleClans.getInstance().getDataFolder(), "players_clan.yml");
 
-        config.remove(name.toLowerCase());
+        Yaml yaml = new Yaml();
 
-        config.save();
+        try (FileWriter fileWriter = new FileWriter(file)) {
+            Map<String, Object> data = getConfigData();
+
+            if (remove) {
+                data.remove(session.getName());
+            } else {
+                data.put(session.getName(), new HashMap<String, String>() {{
+                    put("clan", session.getClanName());
+                    put("role", session.getRole().name());
+                }});
+            }
+
+            fileWriter.write(yaml.dumpAsMap(data));
+        } catch (IOException e) {
+            MainLogger.getLogger().error("Unable to save Config " + file, e);
+        }
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private Map<String, Object> getConfigData() {
+        Map<String, Object> data = new HashMap<>();
+
+        try {
+            File file = new File(SimpleClans.getInstance().getDataFolder(), "players_clan.yml");
+
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            File parent = file.getParentFile();
+
+            if (parent != null) {
+                parent.mkdirs();
+            }
+
+            InputStream inputStream = new FileInputStream(file);
+
+            Yaml yaml = new Yaml();
+
+            data = yaml.load(inputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return data != null ? data : new HashMap<>();
     }
 }

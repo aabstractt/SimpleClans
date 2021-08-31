@@ -3,6 +3,7 @@ package com.wxav.simpleclans.command;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.utils.TextFormat;
+import com.wxav.simpleclans.SimpleClans;
 import com.wxav.simpleclans.command.subcommand.*;
 
 import java.util.*;
@@ -34,6 +35,16 @@ public class ClanCommand extends Command {
     public boolean execute(CommandSender commandSender, String label, String[] args) {
         if (args.length == 0) {
             commandSender.sendMessage(TextFormat.RED + "Use /" + label + " help");
+
+            return false;
+        }
+
+        if (args[0].equals("help")) {
+            commandSender.sendMessage(TextFormat.BLUE + "SimpleClans commands:");
+
+            for (SubCommand command : this.commandMap.values()) {
+                commandSender.sendMessage(SimpleClans.translateMessage("COMMAND_HELP", command.getName(), command.getDescription()));
+            }
 
             return false;
         }
