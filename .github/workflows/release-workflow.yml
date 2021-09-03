@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: "contains(github.event.head_commit.message, '[Release]')"
+    #if: "contains(github.event.head_commit.message, '[Release]')"
     steps:
       - name: Startup
         uses: actions/checkout@v2
