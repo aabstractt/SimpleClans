@@ -19,11 +19,9 @@ public class PlayerJoinListener implements Listener {
 
         Session session = SessionFactory.getInstance().createSession(player);
 
-        if (session.getClanName() == null) {
-            return;
+        if (session.getClanName() != null) {
+            ClanFactory.getInstance().loadClan(session.getClanName());
         }
-
-        ClanFactory.getInstance().loadClan(session.getClanName());
 
         String prefix = SimpleClans.translateMessage(session.getClan() == null ? "NO_CLAN" : "WITH_CLAN", session.getClanName());
         String rankPrefix = session.getClan() != null ? SimpleClans.translateMessage("RANK_PREFIX", session.getRole().simpleName()) : "";
@@ -33,5 +31,7 @@ public class PlayerJoinListener implements Listener {
         }
 
         player.setDisplayName(player.getDisplayName().replaceAll("%CLAN_PREFIX%", prefix).replaceAll("%CLAN_RANK%", rankPrefix));
+
+        player.sendMessage("NameTag > " + player.getNameTag() + ", DisplayName > " + player.getDisplayName());
     }
 }
